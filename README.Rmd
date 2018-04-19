@@ -38,5 +38,19 @@ This is a basic example which shows you how to solve a common problem:
 library(ForecastMoments)
 
 tm <- easyVerification::toymodel()
-summary(SNRresample(tm$fcst, tm$obs, c("EnsCorr", "FairCrpss")))
+tmboot <- SNRresample(tm$fcst, tm$obs, c("EnsCorr", "Ens2AFC", "FairCrpss"))
+
+summary(tmboot)
+```
+
+```{r example_plot, fig.width=8, fig.height=3}
+boots <- summary(tmboot)
+par(mfrow=c(1,nrow(boots) - 1)) 
+tmp <- sapply(seq(1,nrow(boots)-1), function(i){
+  hist(tmboot[i,-1], col='grey', main=rownames(tmboot)[i], xlab='')
+  abline(v=boots[i,-3], lwd=2, lty=c(1,1,3,3), col=c(2,1,1,1))
+  if (i == 1) legend("topleft", legend=colnames(boots)[-3], 
+                     lwd=2, col=c(2,1,1,1), lty=c(1,1,3,3), 
+                     cex=0.83, inset=0.05)
+})
 ```

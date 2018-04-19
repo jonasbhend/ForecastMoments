@@ -30,13 +30,31 @@ library(ForecastMoments)
 #>     EnsCorr
 
 tm <- easyVerification::toymodel()
-summary(SNRresample(tm$fcst, tm$obs, c("EnsCorr", "FairCrpss")))
+tmboot <- SNRresample(tm$fcst, tm$obs, c("EnsCorr", "Ens2AFC", "FairCrpss"))
+
+summary(tmboot)
 #>                               orig  boot_mean    boot_sd boot_p0.025
-#> EnsCorr                 0.43958856 0.42036284 0.16645772  0.05785797
-#> FairCrpss.skillscore    0.05768686 0.01097965 0.12288816 -0.24315200
-#> FairCrpss.skillscore.sd 0.11107607 0.12328414 0.03179172  0.07464745
+#> EnsCorr                 0.52663157 0.49627656 0.15010587  0.18242548
+#> Ens2AFC                 0.70454574 0.66963512 0.05926459  0.54985062
+#> FairCrpss.skillscore    0.10409977 0.05451122 0.13206492 -0.22295674
+#> FairCrpss.skillscore.sd 0.09782066 0.12859667 0.03204040  0.07687236
 #>                         boot_p0.975
-#> EnsCorr                   0.7013449
-#> FairCrpss.skillscore      0.2233812
-#> FairCrpss.skillscore.sd   0.1948931
+#> EnsCorr                   0.7433533
+#> Ens2AFC                   0.7767993
+#> FairCrpss.skillscore      0.2799730
+#> FairCrpss.skillscore.sd   0.2068374
 ```
+
+``` r
+boots <- summary(tmboot)
+par(mfrow=c(1,nrow(boots) - 1)) 
+tmp <- sapply(seq(1,nrow(boots)-1), function(i){
+  hist(tmboot[i,-1], col='grey', main=rownames(tmboot)[i], xlab='')
+  abline(v=boots[i,-3], lwd=2, lty=c(1,1,3,3), col=c(2,1,1,1))
+  if (i == 1) legend("topleft", legend=colnames(boots)[-3], 
+                     lwd=2, col=c(2,1,1,1), lty=c(1,1,3,3), 
+                     cex=0.83, inset=0.05)
+})
+```
+
+![](README-example_plot-1.png)
