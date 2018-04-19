@@ -1,0 +1,31 @@
+Package: ForecastMoments
+Type: Package
+Title: Characterize Forecast Performance by Moments
+Version: 0.1.0
+Authors@R: c(person("MeteoSwiss", role=c("aut", "cph")),
+    person("Jonas", "Bhend",  role = c("cre"), 
+    email='jonas.bhend@meteoswiss.ch'),
+    person("Stefan", "Siegert", role="ctb"),
+    person("David", "Stephenson", role='ctb'))
+Description: Infomation about the quality of a probabilistic forecast
+    can be revealed by exploring the joint distribution of past forecasts 
+    (hindcasts) with corresponding observations. This package estimates
+    6 low order moments that fully characterize the joint distribution for 
+    Gaussian variables along with functionality to assess uncertainty of 
+    these low order moments and derived estimates based on paramtric 
+    bootstrap resampling.
+Depends:
+    R (>= 3.0),
+    easyVerification (>= 0.4.3)
+Imports:
+    parallel,
+    pbapply
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
+License: GPL-3
+Copyright: MeteoSwiss
+LazyData: true
+URL: http://www.meteoswiss.ch
+RoxygenNote: 6.0.1
