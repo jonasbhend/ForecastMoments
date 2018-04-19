@@ -1,0 +1,42 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# ForecastMoments
+
+The joint forecast observation distribution for Gaussian variables can be described with 6 low-order moments.
+'ForecastMoments' provides functions to compute these moments, and to interpret forecast quality using
+a signal-plus-noise model based on these low-order moments. Uncertainty assessment of these moments and derived
+forecast quality information including traditional verification scores and skill scores is provided based on 
+parametric bootstrap resampling.
+
+## Installation
+The package can be installed from github.
+
+```{r installation, eval=FALSE}
+library(devtools)
+install_github("jonasbhend/ForecastMoments")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(ForecastMoments)
+
+tm <- easyVerification::toymodel()
+summary(SNRresample(tm$fcst, tm$obs, c("EnsCorr", "FairCrpss")))
+```
