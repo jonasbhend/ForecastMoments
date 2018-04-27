@@ -19,6 +19,7 @@
 #' @param simplify logical or character string; attempt to reduce the result to
 #'   a vector, matrix or higher dimensional array; see the simplify argument of
 #'   \code{\link[base]{sapply}}.
+#' @param ... additional arguments passed to verification functions.
 #'
 #' @examples
 #' tm <- easyVerification::toymodel()
@@ -30,20 +31,20 @@
 #'                              },
 #'                          function(fcst, obs) SNRparam(performanceMeasures(fcst, obs)))))
 #'
-#' summary(SNRresample(tm$fcst, tm$obs, c("EnsCorr", "Ens2AFC", "FairCrpss")))
+#' summary(SNRresample(tm$fcst, tm$obs, c("EnsCorr", "Ens2AFC", "FairCrpss"), strategy = 'crossval'))
 #'
 #' @import easyVerification pbapply parallel
 #' @export
-SNRresample <- function(fcst, obs, fun, nboot = 999, mc.cores = 1, simplify=TRUE) {
+SNRresample <- function(fcst, obs, fun, nboot = 200, mc.cores = 1, simplify=TRUE, ...) {
   oldpb <- pbapply::pboptions()$type
   pbapply::pboptions(type = 'none')
   on.exit(pbapply::pboptions(type = oldpb))
   if (is.character(fun)){
-    evalfun <- function(x) sapply(fun, veriApply, fcst=x$fcst, obs=x$obs, simplify=simplify)
+    evalfun <- function(x) sapply(fun, veriApply, fcst=x$fcst, obs=x$obs, simplify=simplify, ...)
   } else if (is.list(fun)){
-    evalfun <- function(x) sapply(fun, function(f) f(x$fcst, x$obs), simplify=simplify)
+    evalfun <- function(x) sapply(fun, function(f) f(x$fcst, x$obs), simplify=simplify, ...)
   } else if (is.function(fun)){
-    evalfun <- function(x) fun(x$fcst, x$obs)
+    evalfun <- function(x) fun(x$fcst, x$obs, ...)
   }
 
   out <- parallel::mclapply(0:nboot, function(i){

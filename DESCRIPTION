@@ -1,7 +1,8 @@
 Package: ForecastMoments
 Type: Package
 Title: Characterize Forecast Performance by Moments
-Version: 0.1.0
+Version: 0.1.1
+Date: 2018-04-27
 Authors@R: c(person("MeteoSwiss", role=c("aut", "cph")),
     person("Jonas", "Bhend",  role = c("cre"), 
     email='jonas.bhend@meteoswiss.ch'),

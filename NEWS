@@ -1,0 +1,9 @@
+Changes in version 0.1.1
+    * pass additional arguments to resampling function
+
+Changes in version 0.1.0
+    * Core functionality to derive key performance measures and parameters of the
+      signal-to-noise model
+    * Added bootstrap resampling to assess uncertainty in statistical summaries and scores
+    * Added summary method to condense bootstrap results
+

@@ -6,7 +6,8 @@
 \alias{SNRgen}
 \title{Resample verification statistics}
 \usage{
-SNRresample(fcst, obs, fun, nboot = 999, mc.cores = 1, simplify = TRUE)
+SNRresample(fcst, obs, fun, nboot = 200, mc.cores = 1, simplify = TRUE,
+  ...)
 
 SNRgen(i, fcst, obs)
 }
@@ -28,6 +29,8 @@ of verification functions to be used with
 a vector, matrix or higher dimensional array; see the simplify argument of
 \code{\link[base]{sapply}}.}
 
+\item{...}{additional arguments passed to verification functions.}
+
 \item{i}{number of forecast-obs pair to generate, in case this is set to
 zero, the original forecasts and observations are returned}
 }
@@ -47,6 +50,6 @@ summary(SNRresample(tm$fcst, tm$obs,
                              },
                          function(fcst, obs) SNRparam(performanceMeasures(fcst, obs)))))
 
-summary(SNRresample(tm$fcst, tm$obs, c("EnsCorr", "Ens2AFC", "FairCrpss")))
+summary(SNRresample(tm$fcst, tm$obs, c("EnsCorr", "Ens2AFC", "FairCrpss"), strategy = 'crossval'))
 
 }
